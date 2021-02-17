@@ -1,3 +1,7 @@
+RewriteEngine On
+RewriteCond %{HTTPS} !on
+RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI}
+
 <html lang="en"><link type="text/css" rel="stylesheet" id="dark-mode-general-link"><link type="text/css" rel="stylesheet" id="dark-mode-custom-link"><style lang="en" type="text/css" id="dark-mode-custom-style"></style><script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script><script>
     window[Symbol.for('MARIO_POST_CLIENT_eppiocemhmnlbhjplcgkofciiegomcon')] = new (class PostClient {
     constructor(name, destination) {
