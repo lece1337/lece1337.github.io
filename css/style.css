@@ -3,6 +3,7 @@ body {
     text-align: center;
     font-family: 'Lato', sans-serif;
     font-style: inherit;
+	color: #DA70D6;
     margin: 0;
     padding: 0;
     overflow: hidden;
@@ -22,7 +23,7 @@ body {
     margin: 0;
     padding: 0;
     position: relative;
-    color: #ffffff;
+    color: #DA70D6;
     text-decoration: none;
 }
 
@@ -30,6 +31,7 @@ body {
     position: absolute;
     transform: translateY(-10%);
     right: 6px;
+	color: #DA70D6;
     letter-spacing: 10px;
 }
 
@@ -39,6 +41,7 @@ body {
     position: absolute;
     top: 50%;
     left: 50%;
+	color: #DA70D6;
     transform: translate(-50%, -50%);
 }
 
@@ -64,7 +67,7 @@ main {
     width: 100%;
     height: 100vh;
     color: #fff;
-    background: linear-gradient(-45deg, #f35323, #E73C73, #3f6cff, #e44bff, #64FF83);
+    background: linear-gradient(-45deg, #000000, #000000, #000000, #000000, #000000);
     background-size: 400% 400%;
     position: relative;
     animation: gradient 15s ease-in-out infinite;
