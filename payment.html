@@ -2,6 +2,7 @@
 <html>
 <head>
   <title>Payment Form</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     #payment-form {
       max-width: 500px;
@@ -25,12 +26,10 @@
       margin-bottom: 20px;
     }
 
-    #pay-button {
+    #pay-button, #apple-pay-button {
       display: block;
       width: 100%;
       padding: 10px;
-      background-color: #4CAF50;
-      color: white;
       border: none;
       border-radius: 5px;
       cursor: pointer;
@@ -38,8 +37,32 @@
       margin-top: 20px;
     }
 
+    #pay-button {
+      background-color: #4CAF50;
+      color: white;
+    }
+
     #pay-button:hover {
       background-color: #45a049;
+    }
+
+    #apple-pay-button {
+      background-color: black;
+      color: white;
+    }
+
+    @media (max-width: 480px) {
+      #payment-form {
+        padding: 10px;
+      }
+
+      input[type="number"] {
+        font-size: 16px;
+      }
+
+      #pay-button, #apple-pay-button {
+        font-size: 14px;
+      }
     }
   </style>
 </head>
@@ -51,6 +74,9 @@
       <input type="number" id="amount" name="amount" placeholder="Enter amount" required>
 
       <button type="submit" id="pay-button">Pay</button>
+      <button type="button" id="apple-pay-button">
+        <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzgiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAzOCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTM1LjIyMyAxNi4wODRDMzUuMTM3IDE3LjUzNyAzNC40NDQgMTguODUgMzMuMzA4IDE5LjcxNkMzMi4yOTMgMjAuNDg5IDMwLjk0NiAyMC45MjYgMjkuNTg1IDIwLjkyNkMyOC4yOSAyMC45MjYgMjcuMzQ3IDIwLjM4NyAyNi4yNjggMjAuMzg3QzI1LjE1NCAyMC4zODcgMjQuMjUxIDIwLjkyMiAyMi44ODggMjAuOTIyQzIxLjA0OSAyMC45MjIgMTkuNDYgMTkuOTI0IDE4LjQ0NSAxOC40OTRDMTYuOTcxIDE2LjMxNSAxNi43MTMgMTMuNDE3IDE3LjgwOSAxMS4xMTlDMTguNTYyIDkuNjg4MiAyMC4wMDEgOC41ODYzIDIxLjU3NSA4LjU4NjNDMjIuNjcxIDguNTg2MyAyMy41NDkgOS4xODUzIDI0LjY0MSA5LjE4NTNDMjUuNzAxIDkuMTg1MyAyNi40NDIgOC41OTAzIDI4LjAxMSA4LjU5MDNDMjkuNDIgOC41OTAzIDMwLjY2OSA5LjUzMzMgMzEuNDIyIDEwLjk2M0MzMS4xNTggMTEuMjA4IDM1LjI3OSAxMy45NDggMzUuMjIzIDE2LjA4NFoiIGZpbGw9IndoaXRlIi8+CjxwYXRoIGQ9Ik0zMC42NDkgNC42OTgyQzMxLjQyNSAzLjY3OTIgMzIuMDEzIDIuMzQzMiAzMS45NDQgMC45MzgwMUMzMC44MTQgMS4wMTQwMSAyOS40ODggMS44MTQwIDI4LjY0MyAyLjgwMTAxQzI3Ljk1MSAzLjYxNDAxIDI3LjI5OSA0Ljk1OTAxIDI3LjM3OSA2LjMxN0MyOC41ODkgNi40MDAwMSAyOS45MjUgNS42MDE5OSAzMC42NDkgNC42OTgyWiIgZmlsbD0id2hpdGUiLz4KPC9zdmc+Cg==" alt="Apple Pay"> Pay with Apple Pay
+      </button>
     </form>
   </div>
 
@@ -68,6 +94,36 @@
       // Reset the form
       event.target.reset();
     });
+
+    // Add Apple Pay functionality
+    if (window.ApplePaySession) {
+      var paymentRequest = {
+        countryCode: 'US',
+        currencyCode: 'USD',
+        total: {
+          label: 'Total',
+          amount: '0.00'
+        }
+      };
+
+      var session = new ApplePaySession(1, paymentRequest);
+
+      session.onvalidatemerchant = function (event) {
+        // Validate the merchant here
+        // and call session.completeMerchantValidation(merchantSession)
+      };
+
+      session.onpaymentauthorized = function (event) {
+        // Process the payment here
+        // and call session.completePayment(status)
+      };
+
+      document.getElementById('apple-pay-button').addEventListener('click', function() {
+        session.begin();
+      });
+    } else {
+      document.getElementById('apple-pay-button').style.display = 'none';
+    }
   </script>
 </body>
 </html>
