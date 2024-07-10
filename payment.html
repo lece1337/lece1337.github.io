@@ -1,128 +1,157 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Payment Form</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <title>Apple Pay Integration</title>
   <style>
-    #payment-form {
-      max-width: 500px;
-      margin: 0 auto;
-      padding: 20px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
-
-    label {
-      display: block;
-      margin-bottom: 10px;
-    }
-
-    input[type="number"] {
-      width: 100%;
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      box-sizing: border-box;
-      margin-bottom: 20px;
-    }
-
-    #pay-button, #apple-pay-button {
-      display: block;
-      width: 100%;
-      padding: 10px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 16px;
-      margin-top: 20px;
-    }
-
-    #pay-button {
-      background-color: #4CAF50;
-      color: white;
-    }
-
-    #pay-button:hover {
-      background-color: #45a049;
-    }
-
-    #apple-pay-button {
-      background-color: black;
-      color: white;
-    }
-
-    @media (max-width: 480px) {
-      #payment-form {
-        padding: 10px;
-      }
-
-      input[type="number"] {
-        font-size: 16px;
-      }
-
-      #pay-button, #apple-pay-button {
-        font-size: 14px;
-      }
-    }
+    /* Add any necessary CSS styles here */
   </style>
 </head>
 <body>
-  <div id="payment-form">
-    <h2>Make a Payment</h2>
-    <form id="payment-form">
-      <label for="amount">Amount:</label>
-      <input type="number" id="amount" name="amount" placeholder="Enter amount" required>
+  <h1>Apple Pay Integration</h1>
 
-      <button type="submit" id="pay-button">Pay</button>
-      <button type="button" id="apple-pay-button">
-        <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzgiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAzOCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTM1LjIyMyAxNi4wODRDMzUuMTM3IDE3LjUzNyAzNC40NDQgMTguODUgMzMuMzA4IDE5LjcxNkMzMi4yOTMgMjAuNDg5IDMwLjk0NiAyMC45MjYgMjkuNTg1IDIwLjkyNkMyOC4yOSAyMC45MjYgMjcuMzQ3IDIwLjM4NyAyNi4yNjggMjAuMzg3QzI1LjE1NCAyMC4zODcgMjQuMjUxIDIwLjkyMiAyMi44ODggMjAuOTIyQzIxLjA0OSAyMC45MjIgMTkuNDYgMTkuOTI0IDE4LjQ0NSAxOC40OTRDMTYuOTcxIDE2LjMxNSAxNi43MTMgMTMuNDE3IDE3LjgwOSAxMS4xMTlDMTguNTYyIDkuNjg4MiAyMC4wMDEgOC41ODYzIDIxLjU3NSA4LjU4NjNDMjIuNjcxIDguNTg2MyAyMy41NDkgOS4xODUzIDI0LjY0MSA5LjE4NTNDMjUuNzAxIDkuMTg1MyAyNi40NDIgOC41OTAzIDI4LjAxMSA4LjU5MDNDMjkuNDIgOC41OTAzIDMwLjY2OSA5LjUzMzMgMzEuNDIyIDEwLjk2M0MzMS4xNTggMTEuMjA4IDM1LjI3OSAxMy45NDggMzUuMjIzIDE2LjA4NFoiIGZpbGw9IndoaXRlIi8+CjxwYXRoIGQ9Ik0zMC42NDkgNC42OTgyQzMxLjQyNSAzLjY3OTIgMzIuMDEzIDIuMzQzMiAzMS45NDQgMC45MzgwMUMzMC44MTQgMS4wMTQwMSAyOS40ODggMS44MTQwIDI4LjY0MyAyLjgwMTAxQzI3Ljk1MSAzLjYxNDAxIDI3LjI5OSA0Ljk1OTAxIDI3LjM3OSA2LjMxN0MyOC41ODkgNi40MDAwMSAyOS45MjUgNS42MDE5OSAzMC42NDkgNC42OTgyWiIgZmlsbD0id2hpdGUiLz4KPC9zdmc+Cg==" alt="Apple Pay"> Pay with Apple Pay
-      </button>
-    </form>
-  </div>
+  <button id="applePayButton" onclick="onApplePayButtonClicked()">
+    <img src="https://developer.apple.com/design/human-interface-guidelines/apple-pay/images/button-black.svg" alt="Apple Pay Button">
+  </button>
 
   <script>
-    // Add your payment processing logic here
-    document.getElementById('payment-form').addEventListener('submit', function(event) {
-      event.preventDefault(); // Prevent the form from submitting normally
+    function onApplePayButtonClicked() {
+      if (!ApplePaySession) {
+        return;
+      }
 
-      // Get the amount value from the input field
-      var amount = document.getElementById('amount').value;
-
-      // Perform payment processing here, e.g., call a payment gateway API
-      console.log('Processing payment for amount: $' + amount);
-
-      // Reset the form
-      event.target.reset();
-    });
-
-    // Add Apple Pay functionality
-    if (window.ApplePaySession) {
-      var paymentRequest = {
-        countryCode: 'US',
-        currencyCode: 'USD',
-        total: {
-          label: 'Total',
-          amount: '0.00'
+      // Define ApplePayPaymentRequest
+      const request = {
+        "countryCode": "US",
+        "currencyCode": "USD",
+        "merchantCapabilities": [
+          "supports3DS"
+        ],
+        "supportedNetworks": [
+          "visa",
+          "masterCard",
+          "amex",
+          "discover"
+        ],
+        "total": {
+          "label": "Demo (Card is not charged)",
+          "type": "final",
+          "amount": "1.99"
         }
       };
 
-      var session = new ApplePaySession(1, paymentRequest);
+      // Create ApplePaySession
+      const session = new ApplePaySession(3, request);
 
-      session.onvalidatemerchant = function (event) {
-        // Validate the merchant here
-        // and call session.completeMerchantValidation(merchantSession)
+      session.onvalidatemerchant = async event => {
+        // Call your own server to request a new merchant session.
+        const merchantSession = await validateMerchant();
+        session.completeMerchantValidation(merchantSession);
       };
 
-      session.onpaymentauthorized = function (event) {
-        // Process the payment here
-        // and call session.completePayment(status)
+      session.onpaymentmethodselected = event => {
+        // Define ApplePayPaymentMethodUpdate based on the selected payment method.
+        // No updates or errors are needed, pass an empty object.
+        const update = {};
+        session.completePaymentMethodSelection(update);
       };
 
-      document.getElementById('apple-pay-button').addEventListener('click', function() {
-        session.begin();
-      });
-    } else {
-      document.getElementById('apple-pay-button').style.display = 'none';
+      session.onshippingmethodselected = event => {
+        // Define ApplePayShippingMethodUpdate based on the selected shipping method.
+        // No updates or errors are needed, pass an empty object.
+        const update = {};
+        session.completeShippingMethodSelection(update);
+      };
+
+      session.onshippingcontactselected = event => {
+        // Define ApplePayShippingContactUpdate based on the selected shipping contact.
+        const update = {};
+        session.completeShippingContactSelection(update);
+      };
+
+      session.onpaymentauthorized = event => {
+        // Define ApplePayPaymentAuthorizationResult
+        const result = {
+          "status": ApplePaySession.STATUS_SUCCESS
+        };
+        session.completePayment(result);
+      };
+
+      session.oncouponcodechanged = event => {
+        // Define ApplePayCouponCodeUpdate
+        const newTotal = calculateNewTotal(event.couponCode);
+        const newLineItems = calculateNewLineItems(event.couponCode);
+        const newShippingMethods = calculateNewShippingMethods(event.couponCode);
+        const errors = calculateErrors(event.couponCode);
+
+        session.completeCouponCodeChange({
+          newTotal: newTotal,
+          newLineItems: newLineItems,
+          newShippingMethods: newShippingMethods,
+          errors: errors,
+        });
+      };
+
+      session.oncancel = event => {
+        // Payment canceled by WebKit
+      };
+
+      session.begin();
+    }
+
+    async function validateMerchant() {
+      // Implement your own server-side validation logic here
+      // and return a valid ApplePayMerchantSession
+      return {
+        "merchantSessionIdentifier": "your-merchant-session-identifier",
+        "domainName": "your-domain-name",
+        "displayName": "Your Company Name",
+        "nonce": "your-nonce",
+        "signature": "your-signature"
+      };
+    }
+
+    function calculateNewTotal(couponCode) {
+      // Implement your own logic to calculate the new total based on the coupon code
+      return {
+        "type": "final",
+        "label": "New Total",
+        "amount": "1.49"
+      };
+    }
+
+    function calculateNewLineItems(couponCode) {
+      // Implement your own logic to calculate the new line items based on the coupon code
+      return [
+        {
+          "type": "final",
+          "label": "Item 1",
+          "amount": "1.49"
+        }
+      ];
+    }
+
+    function calculateNewShippingMethods(couponCode) {
+      // Implement your own logic to calculate the new shipping methods based on the coupon code
+      return [
+        {
+          "identifier": "free-shipping",
+          "detail": "Free Shipping",
+          "label": "Free Shipping",
+          "amount": "0.00"
+        },
+        {
+          "identifier": "express-shipping",
+          "detail": "Express Shipping",
+          "label": "Express Shipping",
+          "amount": "5.00"
+        }
+      ];
+    }
+
+    function calculateErrors(couponCode) {
+      // Implement your own logic to calculate any errors based on the coupon code
+      return [];
     }
   </script>
 </body>
