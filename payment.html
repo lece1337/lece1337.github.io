@@ -1,158 +1,115 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Apple Pay Integration</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payment Page</title>
   <style>
-    /* Add any necessary CSS styles here */
+    /* Add your payment page styles here */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+    }
+    .payment-options {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+    }
+    .payment-options button {
+      margin: 0 10px;
+    }
   </style>
 </head>
 <body>
-  <h1>Apple Pay Integration</h1>
-
-  <button id="applePayButton" onclick="onApplePayButtonClicked()">
-    <img src="https://developer.apple.com/design/human-interface-guidelines/apple-pay/images/button-black.svg" alt="Apple Pay Button">
-  </button>
+  <h1>Payment Page</h1>
+  <div class="payment-options">
+    <button id="credit-card-button">Pay with Credit Card</button>
+    <button id="apple-pay-button" onclick="onApplePayButtonClicked()">Pay with Apple Pay</button>
+  </div>
 
   <script>
-    function onApplePayButtonClicked() {
-      if (!ApplePaySession) {
+    async function onApplePayButtonClicked() {
+      // Consider falling back to Apple Pay JS if Payment Request is not available.
+      if (!PaymentRequest) {
         return;
       }
 
-      // Define ApplePayPaymentRequest
-      const request = {
-        "countryCode": "US",
-        "currencyCode": "USD",
-        "merchantCapabilities": [
-          "supports3DS"
-        ],
-        "supportedNetworks": [
-          "visa",
-          "masterCard",
-          "amex",
-          "discover"
-        ],
-        "total": {
-          "label": "Demo (Card is not charged)",
-          "type": "final",
-          "amount": "1.99"
-        }
-      };
+      try {
+        // Define PaymentMethodData
+        const paymentMethodData = [{
+          "supportedMethods": "https://apple.com/apple-pay",
+          "data": {
+            "version": 3,
+            "merchantIdentifier": "merchant.com.apdemo",
+            "merchantCapabilities": [
+              "supports3DS"
+            ],
+            "supportedNetworks": [
+              "amex",
+              "discover",
+              "masterCard",
+              "visa"
+            ],
+            "countryCode": "US"
+          }
+        }];
 
-      // Create ApplePaySession
-      const session = new ApplePaySession(3, request);
-
-      session.onvalidatemerchant = async event => {
-        // Call your own server to request a new merchant session.
-        const merchantSession = await validateMerchant();
-        session.completeMerchantValidation(merchantSession);
-      };
-
-      session.onpaymentmethodselected = event => {
-        // Define ApplePayPaymentMethodUpdate based on the selected payment method.
-        // No updates or errors are needed, pass an empty object.
-        const update = {};
-        session.completePaymentMethodSelection(update);
-      };
-
-      session.onshippingmethodselected = event => {
-        // Define ApplePayShippingMethodUpdate based on the selected shipping method.
-        // No updates or errors are needed, pass an empty object.
-        const update = {};
-        session.completeShippingMethodSelection(update);
-      };
-
-      session.onshippingcontactselected = event => {
-        // Define ApplePayShippingContactUpdate based on the selected shipping contact.
-        const update = {};
-        session.completeShippingContactSelection(update);
-      };
-
-      session.onpaymentauthorized = event => {
-        // Define ApplePayPaymentAuthorizationResult
-        const result = {
-          "status": ApplePaySession.STATUS_SUCCESS
+        // Define PaymentDetails
+        const paymentDetails = {
+          "total": {
+            "label": "Demo (Card is not charged)",
+            "amount": {
+              "value": "27.50",
+              "currency": "USD"
+            }
+          }
         };
-        session.completePayment(result);
-      };
 
-      session.oncouponcodechanged = event => {
-        // Define ApplePayCouponCodeUpdate
-        const newTotal = calculateNewTotal(event.couponCode);
-        const newLineItems = calculateNewLineItems(event.couponCode);
-        const newShippingMethods = calculateNewShippingMethods(event.couponCode);
-        const errors = calculateErrors(event.couponCode);
+        // Define PaymentOptions
+        const paymentOptions = {
+          "requestPayerName": false,
+          "requestBillingAddress": false,
+          "requestPayerEmail": false,
+          "requestPayerPhone": false,
+          "requestShipping": true,
+          "shippingType": "shipping"
+        };
 
-        session.completeCouponCodeChange({
-          newTotal: newTotal,
-          newLineItems: newLineItems,
-          newShippingMethods: newShippingMethods,
-          errors: errors,
+        // Create PaymentRequest
+        const request = new PaymentRequest(paymentMethodData, paymentDetails, paymentOptions);
+
+        request.onmerchantvalidation = event => {
+          // Call your own server to request a new merchant session.
+          const merchantSessionPromise = validateMerchant();
+          event.complete(merchantSessionPromise);
+        };
+
+        // Add your other event handlers here, such as onpaymentmethodchange, onshippingoptionchange, and onshippingaddresschange
+
+        const response = await request.show();
+        const status = "success";
+        await response.complete(status);
+      } catch (e) {
+        // Handle errors
+      }
+    }
+
+    function validateMerchant() {
+      // Implement your server-side merchant validation logic here
+      return new Promise((resolve, reject) => {
+        // Example implementation
+        resolve({
+          validationURL: 'https://example.com/merchant-session',
+          displayName: 'Acme Corp'
         });
-      };
-
-      session.oncancel = event => {
-        // Payment canceled by WebKit
-      };
-
-      session.begin();
+      });
     }
 
-    async function validateMerchant() {
-      // Implement your own server-side validation logic here
-      // and return a valid ApplePayMerchantSession
-      return {
-        "merchantSessionIdentifier": "your-merchant-session-identifier",
-        "domainName": "your-domain-name",
-        "displayName": "Your Company Name",
-        "nonce": "your-nonce",
-        "signature": "your-signature"
-      };
-    }
-
-    function calculateNewTotal(couponCode) {
-      // Implement your own logic to calculate the new total based on the coupon code
-      return {
-        "type": "final",
-        "label": "New Total",
-        "amount": "1.49"
-      };
-    }
-
-    function calculateNewLineItems(couponCode) {
-      // Implement your own logic to calculate the new line items based on the coupon code
-      return [
-        {
-          "type": "final",
-          "label": "Item 1",
-          "amount": "1.49"
-        }
-      ];
-    }
-
-    function calculateNewShippingMethods(couponCode) {
-      // Implement your own logic to calculate the new shipping methods based on the coupon code
-      return [
-        {
-          "identifier": "free-shipping",
-          "detail": "Free Shipping",
-          "label": "Free Shipping",
-          "amount": "0.00"
-        },
-        {
-          "identifier": "express-shipping",
-          "detail": "Express Shipping",
-          "label": "Express Shipping",
-          "amount": "5.00"
-        }
-      ];
-    }
-
-    function calculateErrors(couponCode) {
-      // Implement your own logic to calculate any errors based on the coupon code
-      return [];
-    }
+    // Add your other helper functions here, such as calculateTotal(), calculateDisplayItem(), calculateShippingOptions(), and calculateError()
   </script>
 </body>
 </html>
