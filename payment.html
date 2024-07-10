@@ -22,13 +22,18 @@
     .payment-options button {
       margin: 0 10px;
     }
+    .apple-pay-button {
+      display: inline-block;
+      -webkit-appearance: -apple-pay-button;
+      -apple-pay-button-type: buy;
+    }
   </style>
 </head>
 <body>
   <h1>Payment Page</h1>
   <div class="payment-options">
     <button id="credit-card-button">Pay with Credit Card</button>
-    <button id="apple-pay-button" onclick="onApplePayButtonClicked()">Pay with Apple Pay</button>
+    <div id="apple-pay-button" class="apple-pay-button" onclick="onApplePayButtonClicked()"></div>
   </div>
 
   <script>
