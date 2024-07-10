@@ -1,35 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Payment Gateway</title>
+  <title>Payment Form</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f2f2f2;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-    }
-
     #payment-form {
-      background-color: white;
-      padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-      width: 400px;
-    }
-
-    h2 {
-      text-align: center;
-      margin-top: 0;
+      max-width: 500px;
+      margin: 0 auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
     }
 
     label {
       display: block;
-      font-weight: bold;
-      margin-bottom: 5px;
+      margin-bottom: 10px;
     }
 
     input[type="number"] {
@@ -37,10 +21,11 @@
       padding: 10px;
       border: 1px solid #ccc;
       border-radius: 5px;
+      box-sizing: border-box;
       margin-bottom: 20px;
     }
 
-    button {
+    #pay-button {
       display: block;
       width: 100%;
       padding: 10px;
@@ -50,19 +35,11 @@
       border-radius: 5px;
       cursor: pointer;
       font-size: 16px;
+      margin-top: 20px;
     }
 
-    button:hover {
+    #pay-button:hover {
       background-color: #45a049;
-    }
-
-    #apple-pay-button,
-    #visa-button,
-    #mastercard-button {
-      display: block;
-      width: 100%;
-      margin-bottom: 10px;
-      cursor: pointer;
     }
   </style>
 </head>
@@ -73,64 +50,24 @@
       <label for="amount">Amount:</label>
       <input type="number" id="amount" name="amount" placeholder="Enter amount" required>
 
-      <button id="apple-pay-button" style="display: none;">
-        <img src="https://user-images.githubusercontent.com/11628958/55105764-44634b80-508a-11e9-8769-6b8a29d4503f.png" alt="Apple Pay">
-      </button>
-
-      <button id="visa-button" style="display: none;">
-        <img src="https://via.placeholder.com/150x50?text=Visa" alt="Visa">
-      </button>
-
-      <button id="mastercard-button" style="display: none;">
-        <img src="https://via.placeholder.com/150x50?text=Mastercard" alt="Mastercard">
-      </button>
+      <button type="submit" id="pay-button">Pay</button>
     </form>
   </div>
 
-  <!-- Add Apple Pay integration -->
-  <script src="https://applepay.cdn-apple.com/appplepay/js/version/3/apple-pay-sdk.js"></script>
   <script>
-    // Check if Apple Pay is available
-    if (window.ApplePaySession) {
-      var paymentRequest = {
-        countryCode: 'US',
-        currencyCode: 'USD',
-        supportedNetworks: ['visa', 'mastercard', 'amex'],
-        merchantCapabilities: ['supports3DS'],
-        total: {
-          label: 'Total',
-          amount: document.getElementById('amount').value
-        }
-      };
+    // Add your payment processing logic here
+    document.getElementById('payment-form').addEventListener('submit', function(event) {
+      event.preventDefault(); // Prevent the form from submitting normally
 
-      var session = new ApplePaySession(3, paymentRequest);
+      // Get the amount value from the input field
+      var amount = document.getElementById('amount').value;
 
-      // Handle Apple Pay events
-      session.onvalidatemerchant = function (event) {
-        // Validate the merchant
-        // ...
-      };
+      // Perform payment processing here, e.g., call a payment gateway API
+      console.log('Processing payment for amount: $' + amount);
 
-      session.onpaymentauthorized = function (event) {
-        // Handle the authorized payment
-        // ...
-      };
-
-      session.begin();
-
-      // Show the Apple Pay button
-      document.getElementById('apple-pay-button').style.display = 'block';
-    }
-
-    // Check if Visa and Mastercard integrations are available
-    if (window.VisaCheckout && window.Mastercard) {
-      // Show the Visa and Mastercard buttons
-      document.getElementById('visa-button').style.display = 'block';
-      document.getElementById('mastercard-button').style.display = 'block';
-
-      // Implement Visa and Mastercard integration code here
-      // ...
-    }
+      // Reset the form
+      event.target.reset();
+    });
   </script>
 </body>
 </html>
