@@ -2,123 +2,114 @@
 
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-```
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>deadass</title>
 
 <link rel="icon" type="image/png" href="/favicon.png">
 <link rel="icon" type="image/png" href="https://lece.fun/favicon.ico">
 
 <style>
-    html, body {
-        margin: 0;
-        padding: 0;
-        width: 100%;
-        min-height: 100%;
-        background: #000;
-        color: #ff0000;
-    }
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    min-height: 100%;
+    background: #000;
+    color: #ff0000;
+}
 
-    body {
-        font-family: "Courier New", monospace;
-        overflow: hidden;
-    }
+body {
+    font-family: "Courier New", monospace;
+    overflow: hidden;
+}
 
-    .page {
-        min-height: 100vh;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        padding-top: 20px;
-        box-sizing: border-box;
-    }
+.page {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 20px;
+    box-sizing: border-box;
+}
 
-    .photo-container {
-        width: 330px;
-        height: 185px;
-        max-width: 80vw;
-        position: relative;
-        overflow: hidden;
-    }
+.photo-container {
+    width: 330px;
+    height: 185px;
+    max-width: 80vw;
+    position: relative;
+    overflow: hidden;
+}
 
-    .photo {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        object-fit: contain;
+.photo {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    opacity: 0;
+    transform: scale(1.08);
+    transition: opacity 1.2s ease, transform 5s ease;
+}
+
+.photo.active {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.text-area {
+    margin-top: 22px;
+    width: 90%;
+    text-align: center;
+}
+
+#text {
+    font-size: 19px;
+    font-weight: bold;
+    line-height: 1.5;
+    min-height: 30px;
+}
+
+.cursor {
+    display: inline-block;
+    width: 6px;
+    height: 18px;
+    background: #ff0000;
+    margin-left: 3px;
+    vertical-align: -3px;
+    animation: blink 0.7s infinite;
+}
+
+@keyframes blink {
+    50% {
         opacity: 0;
-        transform: scale(1.08);
-        transition: opacity 1.2s ease, transform 5s ease;
     }
+}
 
-    .photo.active {
-        opacity: 1;
-        transform: scale(1);
-    }
+.signature {
+    position: fixed;
+    bottom: 15px;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    font-size: 13px;
+    font-weight: bold;
+    color: #ff0000;
+}
 
-    .text-area {
-        margin-top: 22px;
-        width: 90%;
-        text-align: center;
-    }
-
-    #text {
-        font-size: 19px;
-        font-weight: bold;
-        line-height: 1.5;
-        min-height: 30px;
-    }
-
-    .cursor {
-        display: inline-block;
-        width: 6px;
-        height: 18px;
-        background: #ff0000;
-        margin-left: 3px;
-        vertical-align: -3px;
-        animation: blink 0.7s infinite;
-    }
-
-    @keyframes blink {
-        50% {
-            opacity: 0;
-        }
-    }
-
-    .signature {
-        position: fixed;
-        bottom: 15px;
-        left: 0;
-        width: 100%;
-        text-align: center;
-        font-size: 13px;
-        font-weight: bold;
-        color: #ff0000;
-    }
-
-    .signature .heart {
-        font-size: 13px;
-    }
-
-    .scanlines {
-        position: fixed;
-        inset: 0;
-        pointer-events: none;
-        z-index: 20;
-
-        background:
-            repeating-linear-gradient(
-                to bottom,
-                rgba(255,255,255,0.025) 0px,
-                rgba(255,255,255,0.025) 1px,
-                transparent 1px,
-                transparent 4px
-            );
-    }
+.scanlines {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 20;
+    background: repeating-linear-gradient(
+        to bottom,
+        rgba(255,255,255,0.025) 0px,
+        rgba(255,255,255,0.025) 1px,
+        transparent 1px,
+        transparent 4px
+    );
+}
 </style>
-```
 
 </head>
 
@@ -126,51 +117,38 @@
 
 <div class="page">
 
-```
 <div class="photo-container">
 
-    <img class="photo active"
-    src="https://cdn.discordapp.com/attachments/1117945489900437624/1255926569919189072/image.png?ex=6a848bc4&is=6a833a44&hm=29150c2d0dd0de4c6faeeb7df1e7ec4006c05c64e2f0f10fe7744c3505e2a34a&">
+<img class="photo active" src="https://cdn.discordapp.com/attachments/1117945489900437624/1255926569919189072/image.png?ex=6a848bc4&is=6a833a44&hm=29150c2d0dd0de4c6faeeb7df1e7ec4006c05c64e2f0f10fe7744c3505e2a34a&">
 
-    <img class="photo"
-    src="https://cdn.discordapp.com/attachments/1117945489900437624/1144065234261254334/IMG_2022.png?ex=6a844f87&is=6a82fe07&hm=9c0994fe80378e07de5bd02d1a007b98f80ef50157d48cc33b480da6c2365aef&">
+<img class="photo" src="https://cdn.discordapp.com/attachments/1117945489900437624/1144065234261254334/IMG_2022.png?ex=6a844f87&is=6a82fe07&hm=9c0994fe80378e07de5bd02d1a007b98f80ef50157d48cc33b480da6c2365aef&">
 
-    <img class="photo"
-    src="https://cdn.discordapp.com/attachments/1117945489900437624/1141084073125761154/avatar_3839699.png?ex=6a84abdb&is=6a835a5b&hm=22b7a85cd0996a105f4d91af1d0134fcb0e75951de6a11cde40fe4c284c79ad1&">
+<img class="photo" src="https://cdn.discordapp.com/attachments/1117945489900437624/1141084073125761154/avatar_3839699.png?ex=6a84abdb&is=6a835a5b&hm=22b7a85cd0996a105f4d91af1d0134fcb0e75951de6a11cde40fe4c284c79ad1&">
 
-    <img class="photo"
-    src="https://cdn.discordapp.com/attachments/1117945489900437624/1140154975973031987/image0.jpg?ex=6a849651&is=6a8344d1&hm=8376da9213f23b294d868ec7b9d1cc495c76bdc35894f4ee388d8507f6dfa5b9&">
+<img class="photo" src="https://cdn.discordapp.com/attachments/1117945489900437624/1140154975973031987/image0.jpg?ex=6a849651&is=6a8344d1&hm=8376da9213f23b294d868ec7b9d1cc495c76bdc35894f4ee388d8507f6dfa5b9&">
 
-    <img class="photo"
-    src="https://cdn.discordapp.com/attachments/1117945489900437624/1138580334842228837/Untitled.png?ex=6a84ca91&is=6a837911&hm=4aca0bea2bacf1ba454377298c6d9384f54bee352630eec4c303e3d7376a5122&">
+<img class="photo" src="https://cdn.discordapp.com/attachments/1117945489900437624/1138580334842228837/Untitled.png?ex=6a84ca91&is=6a837911&hm=4aca0bea2bacf1ba454377298c6d9384f54bee352630eec4c303e3d7376a5122&">
 
-    <img class="photo"
-    src="https://cdn.discordapp.com/attachments/1117945489900437624/1120411681902829568/Captufre.PNG?ex=6a849cb1&is=6a834b31&hm=2cc5eea36a871a405a804e41f90d0648bed25f50ff00c0719d881c4e4e6b0c10&">
+<img class="photo" src="https://cdn.discordapp.com/attachments/1117945489900437624/1120411681902829568/Captufre.PNG?ex=6a849cb1&is=6a834b31&hm=2cc5eea36a871a405a804e41f90d0648bed25f50ff00c0719d881c4e4e6b0c10&">
 
-    <img class="photo"
-    src="https://cdn.discordapp.com/attachments/979608416467173397/1068153775883292692/image.png?ex=6a8457b9&is=6a830639&hm=1292c8a771aa265fff64ad3f850af381a849367f6bffed935b9a6506b2154336&">
+<img class="photo" src="https://cdn.discordapp.com/attachments/979608416467173397/1068153775883292692/image.png?ex=6a8457b9&is=6a830639&hm=1292c8a771aa265fff64ad3f850af381a849367f6bffed935b9a6506b2154336&">
 
-    <img class="photo"
-    src="https://cdn.discordapp.com/attachments/979608416467173397/990963983110508565/unknown.png?ex=6a8456a0&is=6a830520&hm=ca40957be08d367d8012169b7368a5bab973c73f1dd27291944c71872a2a41e8&">
+<img class="photo" src="https://cdn.discordapp.com/attachments/979608416467173397/990963983110508565/unknown.png?ex=6a8456a0&is=6a830520&hm=ca40957be08d367d8012169b7368a5bab973c73f1dd27291944c71872a2a41e8&">
 
 </div>
 
 <div class="text-area">
-    <span id="text"></span>
-    <span class="cursor"></span>
-</div>
-```
-
+<span id="text"></span>
+<span class="cursor"></span>
 </div>
 
-<div class="signature">
-    by ❤️ mr.lece
 </div>
+
+<div class="signature">by ❤️ mr.lece</div>
 
 <div class="scanlines"></div>
 
 <script>
-
 const sentences = [
     "does deadass mean something to you?",
     "you always say deadass.",
@@ -213,19 +191,16 @@ function typeText(sentence, callback) {
 
 function deleteText(callback) {
     const deleting = setInterval(() => {
-
         text.textContent = text.textContent.slice(0, -1);
 
         if (text.textContent.length === 0) {
             clearInterval(deleting);
             setTimeout(callback, 300);
         }
-
     }, 35);
 }
 
 function nextSentence() {
-
     if (sentenceIndex >= sentences.length) {
         sentenceIndex = 0;
     }
@@ -234,17 +209,14 @@ function nextSentence() {
     photoIndex++;
 
     typeText(sentences[sentenceIndex], () => {
-
         deleteText(() => {
             sentenceIndex++;
             nextSentence();
         });
-
     });
 }
 
 setTimeout(nextSentence, 1000);
-
 </script>
 
 </body>
