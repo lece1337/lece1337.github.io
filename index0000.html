@@ -2,142 +2,175 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SALEM.</title>
-  <link rel="icon" type="image/png" href="/favicon.png"/>
-  <link rel="icon" type="image/png" href="https://lece.fun/favicon.ico"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SALEM.</title>
+
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="icon" type="image/png" href="https://lece.fun/favicon.ico">
+
+    <style>
+        html, body {
+            margin: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            overflow: hidden;
+        }
+
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: "Courier New", monospace;
+            color: #ff0000;
+        }
+
+        .scene {
+            position: relative;
+            width: 90%;
+            height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .sentence {
+            position: absolute;
+            width: 100%;
+            left: 0;
+
+            font-size: clamp(20px, 3vw, 42px);
+            font-weight: bold;
+            letter-spacing: 1px;
+
+            opacity: 0;
+            transform: scale(0.96);
+            animation: appear 18s infinite;
+        }
+
+        .sentence:nth-child(1) {
+            animation-delay: 0s;
+            color: #ff0000;
+        }
+
+        .sentence:nth-child(2) {
+            animation-delay: 3s;
+            color: #ffffff;
+        }
+
+        .sentence:nth-child(3) {
+            animation-delay: 6s;
+            color: #ffff00;
+        }
+
+        .sentence:nth-child(4) {
+            animation-delay: 9s;
+            color: #ff0000;
+        }
+
+        .sentence:nth-child(5) {
+            animation-delay: 12s;
+            color: #ffffff;
+        }
+
+        .sentence:nth-child(6) {
+            animation-delay: 15s;
+            color: #ff0000;
+        }
+
+        @keyframes appear {
+            0% {
+                opacity: 0;
+                transform: scale(0.96);
+            }
+
+            8% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            25% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            42% {
+                opacity: 0.35;
+                transform: scale(1.01);
+            }
+
+            55% {
+                opacity: 0;
+                transform: scale(1.03);
+            }
+
+            100% {
+                opacity: 0;
+            }
+        }
+
+        /* subtle CRT / old-web effect */
+        .scanlines {
+            pointer-events: none;
+            position: fixed;
+            inset: 0;
+            background:
+                repeating-linear-gradient(
+                    to bottom,
+                    rgba(255,255,255,0.025) 0px,
+                    rgba(255,255,255,0.025) 1px,
+                    transparent 1px,
+                    transparent 4px
+                );
+            z-index: 10;
+        }
+
+        .noise {
+            pointer-events: none;
+            position: fixed;
+            inset: 0;
+            opacity: 0.04;
+            z-index: 11;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+        }
+    </style>
 </head>
 
-<body text="#FF0000" bgcolor="#000000">
+<body>
 
-    <p align="center">
-        <b><font face="Courier New" color="#000000">S3</font></b>
-    </p>
+    <div class="scene">
 
-    <p align="center">
-        <b>
-            <img
-                src="https://i.ytimg.com/vi/sLdxDpaPLl0/hqdefault.jpg"
-                width="497"
-                height="251"
-                border="0"
-            >
-        </b>
-    </p>
+        <div class="sentence">
+            does deadass mean something to you?
+        </div>
 
-    <p align="center">
-        <b>
-            <font size="5" face="Courier New">
-                does deadass mean something to you?
-            </font>
-        </b>
-    </p>
+        <div class="sentence">
+            you always say deadass.
+        </div>
 
-    <p align="center">
-        <b>
-            <font size="4" face="Courier New" color="#FFFF00">
-                cuz maybe "deadass" doesn't mean anything anymore.
-            </font>
-        </b>
-    </p>
+        <div class="sentence">
+            always deadass.
+        </div>
 
-    <p align="center">
-        <b>
-            <font size="4" face="Courier New" color="#FF0000">
-                but you always say deadass.
-            </font>
-        </b>
-    </p>
+        <div class="sentence">
+            trust people who say deadass.
+        </div>
 
-    <p align="center">
-        <b>
-            <font size="4" face="Courier New" color="#FFFFFF">
-                always deadass.
-            </font>
-        </b>
-    </p>
+        <div class="sentence">
+            they mean it.
+        </div>
 
-    <p align="center">
-        <b>
-            <font size="4" face="Courier New" color="#FFFF00">
-                trust people who say deadass.
-            </font>
-        </b>
-    </p>
+        <div class="sentence">
+            deadass means something to you.
+        </div>
 
-    <p align="center">
-        <b>
-            <font size="4" face="Courier New" color="#FF0000">
-                they mean it.
-            </font>
-        </b>
-    </p>
+    </div>
 
-    <p align="center">
-        <b>
-            <font size="4" face="Courier New">
-                probably.
-            </font>
-        </b>
-    </p>
-
-    <p align="center">
-        <b>
-            <font size="4" face="Courier New" color="#FFFFFF">
-                deadass means something to you.
-            </font>
-        </b>
-    </p>
-
-    <p align="center">
-        <b>
-            <font size="4" face="Courier New" color="#FF0000">
-                until it doesn't.
-            </font>
-        </b>
-    </p>
-
-    <p align="center">
-        <b>
-            <font size="4" face="Courier New" color="#FFFF00">
-                maybe no content to share.
-            </font>
-        </b>
-    </p>
-
-    <p align="center">
-        <b>
-            <font size="4" face="Courier New" color="#FFFFFF">
-                maybe nothing was ever here.
-            </font>
-        </b>
-    </p>
-
-    <p align="center">
-        <b>
-            <font size="4" face="Courier New">
-                always deadass.
-            </font>
-        </b>
-    </p>
-
-    <p align="center">
-        <b>
-            <font size="4" face="Courier New" color="#FF0000">
-                deadass.
-            </font>
-        </b>
-    </p>
-
-    <p align="center">
-        <b>
-            <font size="4" face="Courier New">
-                Bye Bye.
-            </font>
-        </b>
-    </p>
+    <div class="scanlines"></div>
+    <div class="noise"></div>
 
 </body>
 </html>
