@@ -1,178 +1,178 @@
-```html
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>SALEM.</title>
+```
+<title>SALEM.</title>
 
-    <link rel="icon" type="image/png" href="/favicon.png">
-    <link rel="icon" type="image/png" href="https://lece.fun/favicon.ico">
+<link rel="icon" type="image/png" href="/favicon.png">
+<link rel="icon" type="image/png" href="https://lece.fun/favicon.ico">
 
-    <style>
-        html, body {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            min-height: 100%;
-            background: #000;
-            color: #ff0000;
+<style>
+    html, body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        min-height: 100%;
+        background: #000;
+        color: #ff0000;
+    }
+
+    body {
+        font-family: "Courier New", monospace;
+    }
+
+    .page {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-top: 20px;
+    }
+
+    .image img {
+        width: 350px;
+        max-width: 80vw;
+        height: auto;
+    }
+
+    .text-area {
+        margin-top: 25px;
+        width: 90%;
+        text-align: center;
+    }
+
+    #text {
+        font-size: 20px;
+        font-weight: bold;
+        line-height: 1.5;
+        min-height: 32px;
+    }
+
+    .cursor {
+        display: inline-block;
+        width: 7px;
+        height: 20px;
+        background: #ff0000;
+        margin-left: 3px;
+        vertical-align: -4px;
+        animation: blink 0.7s infinite;
+    }
+
+    @keyframes blink {
+        50% {
+            opacity: 0;
         }
+    }
 
-        body {
-            font-family: "Courier New", monospace;
-        }
+    .sub {
+        margin-top: 25px;
+        font-size: 17px;
+        font-weight: bold;
+        color: #ffff00;
+    }
+</style>
+```
 
-        .page {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding-top: 25px;
-            box-sizing: border-box;
-        }
-
-        .image {
-            margin-top: 10px;
-        }
-
-        .image img {
-            width: 497px;
-            max-width: 90vw;
-            height: auto;
-            border: 0;
-        }
-
-        .text-area {
-            margin-top: 35px;
-            width: 90%;
-            max-width: 900px;
-            min-height: 260px;
-            text-align: center;
-        }
-
-        #text {
-            font-size: clamp(20px, 3vw, 38px);
-            font-weight: bold;
-            line-height: 1.5;
-            white-space: pre-wrap;
-        }
-
-        .cursor {
-            display: inline-block;
-            width: 10px;
-            height: 1em;
-            background: #ff0000;
-            margin-left: 4px;
-            animation: blink 0.7s infinite;
-            vertical-align: -2px;
-        }
-
-        @keyframes blink {
-            50% {
-                opacity: 0;
-            }
-        }
-
-        .sub {
-            margin-top: 35px;
-            font-size: 20px;
-            font-weight: bold;
-            color: #ffff00;
-        }
-    </style>
 </head>
 
 <body>
 
 <div class="page">
 
-    <!-- ORIGINAL IMAGE -->
-    <div class="image">
-        <img
-            src="https://i.ytimg.com/vi/sLdxDpaPLl0/hqdefault.jpg"
-            width="497"
-            height="251"
-            alt=""
-        >
-    </div>
+```
+<div class="image">
+    <img
+        src="https://i.ytimg.com/vi/sLdxDpaPLl0/hqdefault.jpg"
+        alt=""
+    >
+</div>
 
-    <div class="text-area">
-        <div id="text"></div>
-        <span class="cursor"></span>
-
-        <div class="sub" id="sub"></div>
-    </div>
+<div class="text-area">
+    <span id="text"></span><span class="cursor"></span>
+    <div class="sub" id="sub"></div>
+</div>
+```
 
 </div>
 
 <script>
 
-    const sentences = [
-        "does deadass mean something to you?",
-        "you always say deadass.",
-        "always deadass.",
-        "trust people who say deadass.",
-        "because deadass means something.",
-        "or maybe it doesn't anymore.",
-        "maybe no content to share.",
-        "maybe nothing was ever here.",
-        "always deadass."
-    ];
+const sentences = [
+    "does deadass mean something to you?",
+    "you always say deadass.",
+    "always deadass.",
+    "trust people who say deadass.",
+    "because deadass means something.",
+    "or maybe it doesn't anymore.",
+    "maybe no content to share.",
+    "maybe nothing was ever here.",
+    "always deadass."
+];
 
-    const text = document.getElementById("text");
-    const sub = document.getElementById("sub");
+const text = document.getElementById("text");
+const sub = document.getElementById("sub");
 
-    let sentenceIndex = 0;
+let sentenceIndex = 0;
 
-    function typeSentence(sentence) {
+function typeText(sentence, callback) {
 
-        text.innerHTML = "";
-        sub.innerHTML = "";
+    let i = 0;
 
-        let i = 0;
+    const typing = setInterval(() => {
 
-        const typing = setInterval(() => {
+        text.textContent += sentence[i];
+        i++;
 
-            text.innerHTML += sentence.charAt(i);
-            i++;
+        if (i >= sentence.length) {
+            clearInterval(typing);
 
-            if (i >= sentence.length) {
+            setTimeout(callback, 1400);
+        }
 
-                clearInterval(typing);
+    }, 60);
+}
 
-                // Wait before starting the next sentence
-                setTimeout(() => {
+function deleteText(callback) {
 
-                    sentenceIndex++;
+    const deleting = setInterval(() => {
 
-                    if (sentenceIndex < sentences.length) {
-                        typeSentence(sentences[sentenceIndex]);
-                    } else {
+        text.textContent = text.textContent.slice(0, -1);
 
-                        // Final message
-                        setTimeout(() => {
-                            text.innerHTML = "";
-                            sub.innerHTML = "Bye Bye.";
-                        }, 1200);
+        if (text.textContent.length === 0) {
+            clearInterval(deleting);
 
-                    }
+            setTimeout(callback, 300);
+        }
 
-                }, 1700);
-            }
+    }, 35);
+}
 
-        }, 65);
+function nextSentence() {
+
+    if (sentenceIndex >= sentences.length) {
+        sub.textContent = "Bye Bye.";
+        return;
     }
 
-    // Start
-    setTimeout(() => {
-        typeSentence(sentences[0]);
-    }, 1000);
+    typeText(sentences[sentenceIndex], () => {
+
+        deleteText(() => {
+
+            sentenceIndex++;
+            nextSentence();
+
+        });
+
+    });
+}
+
+setTimeout(nextSentence, 1000);
 
 </script>
 
 </body>
 </html>
-```
