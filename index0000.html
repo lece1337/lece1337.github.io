@@ -3,6 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>SALEM.</title>
@@ -13,164 +14,164 @@
     <style>
         html, body {
             margin: 0;
+            padding: 0;
             width: 100%;
-            height: 100%;
+            min-height: 100%;
             background: #000;
-            overflow: hidden;
+            color: #ff0000;
         }
 
         body {
-            display: flex;
-            align-items: center;
-            justify-content: center;
             font-family: "Courier New", monospace;
-            color: #ff0000;
         }
 
-        .scene {
-            position: relative;
-            width: 90%;
-            height: 300px;
+        .page {
+            min-height: 100vh;
             display: flex;
+            flex-direction: column;
             align-items: center;
-            justify-content: center;
+            padding-top: 25px;
+            box-sizing: border-box;
+        }
+
+        .image {
+            margin-top: 10px;
+        }
+
+        .image img {
+            width: 497px;
+            max-width: 90vw;
+            height: auto;
+            border: 0;
+        }
+
+        .text-area {
+            margin-top: 35px;
+            width: 90%;
+            max-width: 900px;
+            min-height: 260px;
             text-align: center;
         }
 
-        .sentence {
-            position: absolute;
-            width: 100%;
-            left: 0;
-
-            font-size: clamp(20px, 3vw, 42px);
+        #text {
+            font-size: clamp(20px, 3vw, 38px);
             font-weight: bold;
-            letter-spacing: 1px;
-
-            opacity: 0;
-            transform: scale(0.96);
-            animation: appear 18s infinite;
+            line-height: 1.5;
+            white-space: pre-wrap;
         }
 
-        .sentence:nth-child(1) {
-            animation-delay: 0s;
-            color: #ff0000;
+        .cursor {
+            display: inline-block;
+            width: 10px;
+            height: 1em;
+            background: #ff0000;
+            margin-left: 4px;
+            animation: blink 0.7s infinite;
+            vertical-align: -2px;
         }
 
-        .sentence:nth-child(2) {
-            animation-delay: 3s;
-            color: #ffffff;
+        @keyframes blink {
+            50% {
+                opacity: 0;
+            }
         }
 
-        .sentence:nth-child(3) {
-            animation-delay: 6s;
+        .sub {
+            margin-top: 35px;
+            font-size: 20px;
+            font-weight: bold;
             color: #ffff00;
-        }
-
-        .sentence:nth-child(4) {
-            animation-delay: 9s;
-            color: #ff0000;
-        }
-
-        .sentence:nth-child(5) {
-            animation-delay: 12s;
-            color: #ffffff;
-        }
-
-        .sentence:nth-child(6) {
-            animation-delay: 15s;
-            color: #ff0000;
-        }
-
-        @keyframes appear {
-            0% {
-                opacity: 0;
-                transform: scale(0.96);
-            }
-
-            8% {
-                opacity: 1;
-                transform: scale(1);
-            }
-
-            25% {
-                opacity: 1;
-                transform: scale(1);
-            }
-
-            42% {
-                opacity: 0.35;
-                transform: scale(1.01);
-            }
-
-            55% {
-                opacity: 0;
-                transform: scale(1.03);
-            }
-
-            100% {
-                opacity: 0;
-            }
-        }
-
-        /* subtle CRT / old-web effect */
-        .scanlines {
-            pointer-events: none;
-            position: fixed;
-            inset: 0;
-            background:
-                repeating-linear-gradient(
-                    to bottom,
-                    rgba(255,255,255,0.025) 0px,
-                    rgba(255,255,255,0.025) 1px,
-                    transparent 1px,
-                    transparent 4px
-                );
-            z-index: 10;
-        }
-
-        .noise {
-            pointer-events: none;
-            position: fixed;
-            inset: 0;
-            opacity: 0.04;
-            z-index: 11;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
         }
     </style>
 </head>
 
 <body>
 
-    <div class="scene">
+<div class="page">
 
-        <div class="sentence">
-            does deadass mean something to you?
-        </div>
-
-        <div class="sentence">
-            you always say deadass.
-        </div>
-
-        <div class="sentence">
-            always deadass.
-        </div>
-
-        <div class="sentence">
-            trust people who say deadass.
-        </div>
-
-        <div class="sentence">
-            they mean it.
-        </div>
-
-        <div class="sentence">
-            deadass means something to you.
-        </div>
-
+    <!-- ORIGINAL IMAGE -->
+    <div class="image">
+        <img
+            src="https://i.ytimg.com/vi/sLdxDpaPLl0/hqdefault.jpg"
+            width="497"
+            height="251"
+            alt=""
+        >
     </div>
 
-    <div class="scanlines"></div>
-    <div class="noise"></div>
+    <div class="text-area">
+        <div id="text"></div>
+        <span class="cursor"></span>
+
+        <div class="sub" id="sub"></div>
+    </div>
+
+</div>
+
+<script>
+
+    const sentences = [
+        "does deadass mean something to you?",
+        "you always say deadass.",
+        "always deadass.",
+        "trust people who say deadass.",
+        "because deadass means something.",
+        "or maybe it doesn't anymore.",
+        "maybe no content to share.",
+        "maybe nothing was ever here.",
+        "always deadass."
+    ];
+
+    const text = document.getElementById("text");
+    const sub = document.getElementById("sub");
+
+    let sentenceIndex = 0;
+
+    function typeSentence(sentence) {
+
+        text.innerHTML = "";
+        sub.innerHTML = "";
+
+        let i = 0;
+
+        const typing = setInterval(() => {
+
+            text.innerHTML += sentence.charAt(i);
+            i++;
+
+            if (i >= sentence.length) {
+
+                clearInterval(typing);
+
+                // Wait before starting the next sentence
+                setTimeout(() => {
+
+                    sentenceIndex++;
+
+                    if (sentenceIndex < sentences.length) {
+                        typeSentence(sentences[sentenceIndex]);
+                    } else {
+
+                        // Final message
+                        setTimeout(() => {
+                            text.innerHTML = "";
+                            sub.innerHTML = "Bye Bye.";
+                        }, 1200);
+
+                    }
+
+                }, 1700);
+            }
+
+        }, 65);
+    }
+
+    // Start
+    setTimeout(() => {
+        typeSentence(sentences[0]);
+    }, 1000);
+
+</script>
 
 </body>
 </html>
